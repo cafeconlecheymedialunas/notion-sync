@@ -1,6 +1,9 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Exit if accessed directly.
+}
 /*
- * Plugin Name:       Notion Sync Woocommerce
+ * Plugin Name:       Notion Sync Woocommerce B
  * Plugin URI:        https://example.com/plugins/the-basics/
  * Description:       Handle the basics with this plugin.
  * Version:           1.10.3
@@ -14,22 +17,43 @@
  * Text Domain:       my-basics-plugin
  * Domain Path:       /languages
  */
+require "vendor/autoload.php";
 
- function wpdocs_selectively_enqueue_admin_script( $hook ) {
-   
-    wp_enqueue_script( 'my_custom_script', plugin_dir_url( __FILE__ ) . '/src/main.ts', array(), '1.0' );
-    wp_scripts()->add_data('my_custom_script', 'type', 'module');
-}
-add_action( 'admin_enqueue_scripts', 'wpdocs_selectively_enqueue_admin_script' );
+/*
+use Notion\Notion;
+use Notion\Search\Filter;
+use Notion\Search\Query;
+DEFINE("NOTION_TOKEN","secret_uPBBR6snphU8rKertMWty82DqrUNgGcVe4PJf5fCCSi");
 
-add_filter('script_loader_tag', 'moduleTypeScripts', 10, 2);
-function moduleTypeScripts($tag, $handle)
-{
-    $tyype = wp_scripts()->get_data($handle, 'type');
 
-    if ($tyype) {
-        $tag = str_replace('src', 'type="' . esc_attr($tyype) . '" src', $tag);
+/
+
+
+add_action( 'elementor/dynamic_tags/register', function ($dynamic_tags_manager) use($notion_database) {
+    $databases = $notion_database->get_databases();
+
+    foreach($databases as $database){
+        var_dump($database);
     }
+} );
 
-    return $tag;
+
+add_action( 'elementor/dynamic_tags/register', function () use($notion_database) {
+    require_once( __DIR__ . '/src/dynamic-tags/demo-field-tag.php' );
+
+	$dynamic_tags_manager->register( new \CWPAI_EL_dynamic_tag_demo_field );
+} );
+*/
+
+
+
+function elementor_test_addon() {
+
+	// Load plugin file
+	require_once( __DIR__ . '/includes/plugin-init.php' );
+
+	// Run the plugin
+	PluginInit::instance();
+
 }
+add_action( 'plugins_loaded', 'elementor_test_addon' );
