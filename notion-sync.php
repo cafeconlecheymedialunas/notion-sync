@@ -19,6 +19,10 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 require "vendor/autoload.php";
 
+define("DIR_URL",__DIR__);
+
+
+
 /*
 use Notion\Notion;
 use Notion\Search\Filter;
@@ -50,7 +54,7 @@ add_action( 'elementor/dynamic_tags/register', function () use($notion_database)
 function elementor_test_addon() {
 
 	// Load plugin file
-	require_once( __DIR__ . '/includes/plugin-init.php' );
+	require_once(DIR_URL. '/includes/plugin-init.php' );
 
 	// Run the plugin
 	PluginInit::instance();

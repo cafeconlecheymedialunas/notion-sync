@@ -60,4 +60,3 @@ class NotionDatabase{
         return $response;
     }
 }
-$notion_database = new NotionDatabase(NOTION_TOKEN);
