@@ -1,5 +1,25 @@
-<?php class ElementorHandle{
-    /**
+<?php 
+
+
+class Elementor_Manager{
+
+	private $notion;
+	private $databases;
+
+    public function __construct() {
+		
+		require_once( PLUGIN_DIR_URL . '/includes/notion/Notion_Manager.php' );		
+		$this->notion = new Notion_Manager();
+		$this->databases = $this->notion->get_databases();
+
+        add_action( 'elementor/widgets/register', [ $this, 'register_widgets' ] );
+		add_action( 'elementor/controls/register', [ $this, 'register_controls' ] );
+		add_action( 'elementor/dynamic_tags/register', [ $this, 'register_dynamic_tags' ] );
+		add_action( 'elementor/dynamic_tags/register', [ $this,'register_tag_groups']  );
+
+
+    }
+    	 /**
 	 * Register Widgets
 	 *
 	 * Load widgets files and register new Elementor widgets.
@@ -46,25 +66,31 @@
 	 *
 	 * @param \Elementor\Widgets_Manager $widgets_manager Elementor widgets manager.
 	 */
-	public function register_dynamic_tags( $widgets_manager ) {
+	public function register_dynamic_tags( $dynamic_tag_manager ) {
 
 		
-		require_once( DIR_URL . '/includes/dynamic-tags/notion-database-field-column-tag.php' );
+		require_once( PLUGIN_DIR_URL . '/includes/elementor/Elementor_Dynamic_Tag.php' );
 
-		$widgets_manager->register( new NotionDatabaseFieldColumnTag("Fases") );
+		$dynamyc_tag = new Elementor_Dynamic_Tag();
+
+		$dynamic_tag_manager->register( $dynamyc_tag );
 		
 
 	}
 
 
-	function register_tag_groups( $dynamic_tags_manager ) {
+	public function register_tag_groups( $dynamic_tags_manager ) {
+		
+			$dynamic_tags_manager->register_group(
+				"notion_database",
+				[
+					'title' => "Notion Databases Fields"
+		
+				]
+			);
+		
 
-		$dynamic_tags_manager->register_group(
-			'cwpai-dynamic-tag',
-			[
-				'title' => esc_html__('CodeWP Dynamic Tag', 'cwpai_dynamic_tag')
-	
-			]
-		);
+		
 	}
 }
+

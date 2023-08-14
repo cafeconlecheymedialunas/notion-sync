@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @since 1.0.0
  */
-final class PluginInit {
+final class Plugin_Init {
 
 	/**
 	 * Addon Version
@@ -130,9 +130,9 @@ final class PluginInit {
 
 		$message = sprintf(
 			/* translators: 1: Plugin name 2: Elementor */
-			esc_html__( '"%1$s" requires "%2$s" to be installed and activated.', 'elementor-test-addon' ),
-			'<strong>' . esc_html__( 'Elementor Test Addon', 'elementor-test-addon' ) . '</strong>',
-			'<strong>' . esc_html__( 'Elementor', 'elementor-test-addon' ) . '</strong>'
+			esc_html__( '"%1$s" requires "%2$s" to be installed and activated.', PLUGIN_SLUG ),
+			'<strong>' . esc_html__( 'Elementor Test Addon', PLUGIN_SLUG ) . '</strong>',
+			'<strong>' . esc_html__( 'Elementor', PLUGIN_SLUG ) . '</strong>'
 		);
 
 		printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message );
@@ -153,9 +153,9 @@ final class PluginInit {
 
 		$message = sprintf(
 			/* translators: 1: Plugin name 2: Elementor 3: Required Elementor version */
-			esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'elementor-test-addon' ),
-			'<strong>' . esc_html__( 'Elementor Test Addon', 'elementor-test-addon' ) . '</strong>',
-			'<strong>' . esc_html__( 'Elementor', 'elementor-test-addon' ) . '</strong>',
+			esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', PLUGIN_SLUG ),
+			'<strong>' . esc_html__( 'Elementor Test Addon', PLUGIN_SLUG ) . '</strong>',
+			'<strong>' . esc_html__( 'Elementor', PLUGIN_SLUG ) . '</strong>',
 			 self::MINIMUM_ELEMENTOR_VERSION
 		);
 
@@ -177,15 +177,17 @@ final class PluginInit {
 
 		$message = sprintf(
 			/* translators: 1: Plugin name 2: PHP 3: Required PHP version */
-			esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', 'elementor-test-addon' ),
-			'<strong>' . esc_html__( 'Elementor Test Addon', 'elementor-test-addon' ) . '</strong>',
-			'<strong>' . esc_html__( 'PHP', 'elementor-test-addon' ) . '</strong>',
+			esc_html__( '"%1$s" requires "%2$s" version %3$s or greater.', PLUGIN_SLUG ),
+			'<strong>' . esc_html__( 'Elementor Test Addon', PLUGIN_SLUG ) . '</strong>',
+			'<strong>' . esc_html__( 'PHP', PLUGIN_SLUG ) . '</strong>',
 			 self::MINIMUM_PHP_VERSION
 		);
 
 		printf( '<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', $message );
 
 	}
+
+
 
 	/**
 	 * Initialize
@@ -198,17 +200,16 @@ final class PluginInit {
 	 * @access public
 	 */
 	public function init() {
-		
-		require_once DIR_URL . "/includes/core/elementor-handle.php";
 
-		$elementorHandle = new ElementorHandle();
+		require_once( PLUGIN_DIR_URL . '/includes/core/Settings_Page.php' );
+		new Settings_Page();
 
-		add_action( 'elementor/widgets/register', [ $elementorHandle, 'register_widgets' ] );
-		add_action( 'elementor/controls/register', [ $elementorHandle, 'register_controls' ] );
-		add_action( 'elementor/dynamic_tags/register', [ $elementorHandle, 'register_dynamic_tags' ] );
-		add_action( 'elementor/dynamic_tags/register', [ $elementorHandle,'register_tag_groups']  );
+		require_once( PLUGIN_DIR_URL . '/includes/elementor/Elementor_Manager.php' );
+		new Elementor_Manager();
 	}
 
+	
+	
 	
 	
 

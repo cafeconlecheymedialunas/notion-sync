@@ -1,10 +1,7 @@
 <?php
 
 /*
-use Notion\Notion;
-use Notion\Search\Filter;
-use Notion\Search\Query;
-DEFINE("NOTION_TOKEN","secret_uPBBR6snphU8rKertMWty82DqrUNgGcVe4PJf5fCCSi");
+
 
 
 /
@@ -25,12 +22,17 @@ add_action( 'elementor/dynamic_tags/register', function () use($notion_database)
 	$dynamic_tags_manager->register( new \CWPAI_EL_dynamic_tag_demo_field );
 } );
 */
-class NotionDatabase{
-    private $token;
-    private $notion;
+use Notion\Notion;
+use Notion\Search\Filter;
+use Notion\Search\Query;
+DEFINE("NOTION_TOKEN","secret_uPBBR6snphU8rKertMWty82DqrUNgGcVe4PJf5fCCSi");
 
-    public function __construct($token) {
-        $this->token = $token;
+class Notion_Manager{
+  
+
+
+    public function __construct() {
+        $token ="secret_uPBBR6snphU8rKertMWty82DqrUNgGcVe4PJf5fCCSi";
         $this->notion = Notion::create($token);
     }
 
